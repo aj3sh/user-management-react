@@ -1,21 +1,28 @@
 import HomePage from 'pages/Home';
 import NotFoundPage from 'pages/NotFound';
 import LoginPage from 'pages/Login';
+import UserList from 'pages/Users';
 
 export const PATHS = {
-    home: '/',
     login: '/login',
+    home: '/',
+    users: '/users/',
 }
 
 export const ROUTES = [
+    {
+        path: PATHS.login,
+        component: LoginPage,
+        exact: true,
+    },
     {
         path: PATHS.home,
         component: HomePage,
         exact: true,
     },
     {
-        path: PATHS.login,
-        component: LoginPage,
+        path: PATHS.users,
+        component: UserList,
         exact: true,
     },
     {
