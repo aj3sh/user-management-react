@@ -1,6 +1,6 @@
 const Forbidden = () => {
     return (
-        <>Unauthorized Access</>
+        <h1>Unauthorized Access</h1>
     )
 }
 
