@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
-import { User } from "models";
+
+import { User } from "../models";
 
 const AuthContext = createContext({})
 

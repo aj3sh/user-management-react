@@ -1,5 +1,6 @@
-import useAuth from "hooks/useAuth"
 import { useLocation, Navigate } from "react-router-dom"
+
+import useAuth from "../../hooks/useAuth"
 
 const NotLogged = ({ children }) => {
     const {auth} = useAuth();
