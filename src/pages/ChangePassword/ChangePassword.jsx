@@ -62,7 +62,7 @@ const ChangePassword = () => {
     
     return <LoginRequired>
         <Nav/>
-        <div className="container">
+        <div className="container mt-4">
             <h1>Change Password</h1>
             { errors.non_field_errors?.map((err, i) => <div key={ 'error_'+i } className='alert alert-danger'>{err}</div> ) }
             <form onSubmit={handleSubmit}>

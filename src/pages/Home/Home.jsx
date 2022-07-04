@@ -9,7 +9,7 @@ const HomePage = () => {
         <LoginRequired>
             <Nav/>
             <div className="container-fluid mt-4 text-center">
-                <h1>Welcome {auth.user.getFullName()}</h1>
+                <h1>Welcome {auth?.user?.getFullName()}</h1>
             </div>
         </LoginRequired>
     )
