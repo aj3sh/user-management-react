@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import AdminRequired from "components/AdminRequired"
 import {axiosAuth} from "api/axios"
 import useLogout from "hooks/useLogout";
-// import AuthContext from "context/AuthProvider"
+import Nav from "components/Nav"
 
 const UsersList = () => {
 
     const [users, setUsers] = useState()
+    
     const logout = useLogout()
-
+    
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController()
@@ -35,35 +36,48 @@ const UsersList = () => {
             controller.abort();
         }
         
+    // eslint-disable-next-line
     }, [])
 
     return (
         <AdminRequired>
-            <h1>Users List</h1>
-            {
-                users?.length
-                ? (
-                    <ul>
-                        { users.map((user, i) => <li key={i}>{user.email}</li> )}
-                    </ul>
-                )
-                : <p>No users available</p> 
-            }
+            <Nav/>
+            <div className="container-fluid">
+                <h1>Users List</h1>
+                {
+                    users?.length
+                    ? (
+                        <table className="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>S.N.</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            { users.map((user, i) => (
+                                <tr key={i}>
+                                    <td>{i+1}</td>
+                                    <td>{user.first_name}</td>
+                                    <td>{user.last_name}</td>
+                                    <td>{user.email}</td>
+                                    <td>
+                                        <button className="btn btn-info btn-sm mr-2">Update</button>
+                                        <button className="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            ) )}
+                            </tbody>
+                        </table>
+                    )
+                    : <p>No users available</p> 
+                }
+            </div>
         </AdminRequired>
     )
 }
-
-// class UsersList extends Component{
-//     componentDidMount(){
-//         console.log(this.context)
-//     }
-
-//     render(){
-//         return <>
-//         Users List
-//         </>
-//     }
-// }
-// UsersList.contextType = AuthContext;
 
 export default UsersList

@@ -1,15 +1,16 @@
 import LoginRequired from "components/LoginRequired"
-import useLogout from "hooks/useLogout"
-import { Link } from "react-router-dom"
+import Nav from "components/Nav"
+import useAuth from "hooks/useAuth"
 
 const HomePage = () => {
-    const logout = useLogout()
+    const {auth} = useAuth()
 
     return (
         <LoginRequired>
-            HomePage<br/>
-            <Link to="/users">Users</Link><br/>
-            <button type="button" onClick={logout}>Logout</button>
+            <Nav/>
+            <div className="container-fluid mt-4 text-center">
+                <h1>Welcome {auth.user.getFullName()}</h1>
+            </div>
         </LoginRequired>
     )
 }

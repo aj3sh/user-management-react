@@ -3,6 +3,7 @@ import axios from 'api/axios';
 import useAuth from 'hooks/useAuth';
 import {User} from 'models'
 import { useLocation, useNavigate } from 'react-router-dom';
+import NotLogged from 'components/NotLogged';
 
 const LoginPage = () => {
     const {setAuth} = useAuth() // setAuth to store auth data in context api
@@ -24,7 +25,6 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         // handling form submit
         e.preventDefault()
-        console.log('Handle Submit')
         axios.post(
             '/api/users/login', 
             JSON.stringify({email, password}),
@@ -32,18 +32,23 @@ const LoginPage = () => {
                 headers: {'Content-Type': 'application/json',},
             }    
         ).then((res) => {
-            console.log(res.data)
             const user = User.map(res.data.user)
             const access_token = res.data.access
             const refresh_token = res.data.refresh
+            
+            // saving user to the state
             setAuth({user})
 
             // saving access token, refresh token and user in local storage
             localStorage.setItem('access_token', access_token)
             localStorage.setItem('refresh_token', refresh_token)
-            localStorage.setItem('user', user.toJson())
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            
+            // navigating to from page or home page
             navigate(from, { replace: true })
+
         }).catch((err) => {
+            // handling response error
             if(!err?.response){
                 setErrors({'non_field_errors': ['No response from server.']})
             }else if(err.response?.status === 401 ){
@@ -55,7 +60,7 @@ const LoginPage = () => {
     }
 
     return (
-         <>
+         <NotLogged>
             <h1>Login</h1>
             { errors.non_field_errors?.map((err, i) => <div key={ 'error_'+i } className='alert alert-danger'>{err}</div> ) }
             <form autoComplete="off" onSubmit={handleSubmit}>
@@ -89,7 +94,7 @@ const LoginPage = () => {
                 </div>
                 <button className="btn btn-primary">Login</button>
             </form>
-        </>
+        </NotLogged>
     )
 }
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://127.0.0.1:8000'
+const BASE_URL =  process.env.REACT_APP_API_BASE_URL
 
 const REFRESH_TOKEN_EXCEPTION = { code: 'REFRESH_TOKEN_LOAD_FAIL', message: 'Failed to load new refresh token.' }
 
@@ -22,6 +22,7 @@ export const axiosAuth = axios.create({
 
 axiosAuth.interceptors.request.use(
     (config) => {
+        // adding authorization headers
         const access_token = localStorage.getItem("access_token")
         config.headers['Authorization'] = `Bearer ${access_token}`
         return config
@@ -33,11 +34,16 @@ axiosAuth.interceptors.response.use(
     response => response, 
     async (error) => {
         const prevRequest = error?.config
+        
+        // getting new access token if expired
         if(error?.response?.status === 401 && error?.response?.data?.code === "token_not_valid"){
             const newAccessToken = await refreshToken()
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
             return axiosAuth(prevRequest)
         }
+
+        // returning other error response
+        return Promise.reject(error)
     },
 );
 

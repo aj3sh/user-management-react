@@ -1,6 +1,6 @@
 class User{
 	
-	toMap(){
+	toObject(){
 		return {
 			id: this.id,
             first_name: this.first_name,
@@ -9,10 +9,6 @@ class User{
             is_admin: this.is_admin,
             is_superuser: this.is_superuser,
 		};
-	}
-	
-	toJson(){
-		return this.toMap();
 	}
 
     static map(obj){
@@ -23,6 +19,7 @@ class User{
 		instance.email = obj.email;
 		instance.is_admin = obj.is_admin;
 		instance.is_superuser = obj.is_superuser;
+		instance.is_model = true;
 		return instance;
 	}
 	
@@ -41,6 +38,12 @@ class User{
 
 	// model methods
 	toString() {
+		return this.email
+	}
+
+	getFullName(){
+		if(this.first_name || this.last_name)
+			return `${this.first_name} ${this.last_name}`.trim()
 		return this.email
 	}
 
