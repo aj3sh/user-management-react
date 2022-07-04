@@ -68,7 +68,7 @@ const LoginPage = () => {
                 zIndex: -1,
                 backgroundColor: '#000',
             }}>
-                <img src={login_background} style={{
+                <img alt="Login Background" src={login_background} style={{
                     position: 'absolute',
                     inset: 0,
                     objectFit: 'cover',
@@ -115,7 +115,7 @@ const LoginPage = () => {
                         <div>{ errors.password?.map((err, i) => 
                             <span key={ 'error_password_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                     </div>
-                    <button className="btn btn-primary btn-block">Login</button>
+                    <button data-testid="test_login" className="btn btn-primary btn-block">Login</button>
                 </form>
             </div>
         </NotLogged>
