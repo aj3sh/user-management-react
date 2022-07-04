@@ -1,5 +1,5 @@
-import Forbidden from "components/Forbidden";
-import useAuth from "hooks/useAuth"
+import Forbidden from "../Forbidden";
+import useAuth from "../../hooks/useAuth"
 
 const AdminRequired = ({ children }) => {
     const {auth} = useAuth();

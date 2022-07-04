@@ -1,5 +1,6 @@
 import useAuth from "./useAuth";
 import { useNavigate } from 'react-router-dom';
+import { PATHS } from "../routes";
 
 const useLogout = () => {
 
@@ -11,7 +12,7 @@ const useLogout = () => {
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
         localStorage.removeItem('user')
-        navigate('/login', { replace: true })
+        navigate(PATHS.login, { replace: true })
     }
 
     return logout

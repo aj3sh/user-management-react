@@ -1,9 +1,11 @@
 import {useState, useEffect} from 'react';
-import axios from 'api/axios';
-import useAuth from 'hooks/useAuth';
-import {User} from 'models'
 import { useLocation, useNavigate } from 'react-router-dom';
-import NotLogged from 'components/NotLogged';
+
+import axios from '../../api/axios';
+import NotLogged from '../../components/NotLogged';
+import useAuth from '../../hooks/useAuth';
+import {User} from '../../models'
+import { PATHS } from '../../routes';
 
 const LoginPage = () => {
     const {setAuth} = useAuth() // setAuth to store auth data in context api
@@ -11,7 +13,7 @@ const LoginPage = () => {
     // for navigation
     const navigate = useNavigate()
     const location = useLocation()
-    const from = location.state?.from?.pathname || '/'
+    const from = location.state?.from?.pathname || PATHS.home
 
     // states
     const [email, setEmail] = useState('') // email input value

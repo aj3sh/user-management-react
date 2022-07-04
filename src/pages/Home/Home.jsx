@@ -1,6 +1,6 @@
-import LoginRequired from "components/LoginRequired"
-import Nav from "components/Nav"
-import useAuth from "hooks/useAuth"
+import LoginRequired from "../../components/LoginRequired"
+import Nav from "../../components/Nav"
+import useAuth from "../../hooks/useAuth"
 
 const HomePage = () => {
     const {auth} = useAuth()

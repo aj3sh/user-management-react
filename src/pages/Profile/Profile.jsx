@@ -1,12 +1,11 @@
 import {useState, useEffect} from 'react';
-import LoginRequired from "components/LoginRequired"
-import Nav from "components/Nav"
-import useAuth from 'hooks/useAuth';
-import {axiosAuth} from "api/axios"
-import { User } from 'models';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
+import {axiosAuth} from "../../api/axios"
+import LoginRequired from "../../components/LoginRequired"
+import Nav from "../../components/Nav"
+import useAuth from '../../hooks/useAuth';
+import { User } from '../../models';
 
 const Profile = () => {
     const {auth, setAuth} = useAuth()
@@ -74,28 +73,27 @@ const Profile = () => {
                 <div className="form-group">
                     <label>First Name</label>
                     <input type="text" name="first_name" id="id_first_name" className="form-control"
-                        onChange={(e) => setFirstName(e.target.value)} value={firstName}/>
+                        onChange={(e) => setFirstName(e.target.value)} value={firstName} required/>
                     <div>{ errors.first_name?.map((err, i) => 
                         <span key={ 'error_first_name_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>
                 <div className="form-group">
                     <label>Last Name</label>
                     <input type="text" name="last_name" id="id_last_name" className="form-control"
-                        onChange={(e) => setLastName(e.target.value)} value={lastName}/>
+                        onChange={(e) => setLastName(e.target.value)} value={lastName} required/>
                     <div>{ errors.last_name?.map((err, i) => 
                         <span key={ 'error_last_name_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>
                 <div className="form-group">
                     <label>Email</label>
                     <input type="email" name="email" id="id_email" className="form-control"
-                        onChange={(e) => setEmail(e.target.value)} value={email}/>
+                        onChange={(e) => setEmail(e.target.value)} value={email} required/>
                     <div>{ errors.email?.map((err, i) => 
                         <span key={ 'error_email_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>
                 <button className="btn btn-primary">{buttonText}</button>
             </form>
         </div>
-        <ToastContainer/>
     </LoginRequired>
 }
 

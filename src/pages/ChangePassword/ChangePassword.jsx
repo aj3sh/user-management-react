@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react';
-import LoginRequired from "components/LoginRequired"
-import Nav from "components/Nav"
-import {axiosAuth} from "api/axios"
 import { ToastContainer, toast } from 'react-toastify';
+
+import {axiosAuth} from "../../api/axios"
+import LoginRequired from "../../components/LoginRequired"
+import Nav from "../../components/Nav"
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -62,27 +63,27 @@ const ChangePassword = () => {
     return <LoginRequired>
         <Nav/>
         <div className="container">
-            <h1>ChangePassword</h1>
+            <h1>Change Password</h1>
             { errors.non_field_errors?.map((err, i) => <div key={ 'error_'+i } className='alert alert-danger'>{err}</div> ) }
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Current Password</label>
                     <input type="password" name="current_password" id="id_current_password" className="form-control"
-                        onChange={(e) => setCurrentPassword(e.target.value)} value={current_password}/>
+                        onChange={(e) => setCurrentPassword(e.target.value)} value={current_password} required/>
                     <div>{ errors.current_password?.map((err, i) => 
                         <span key={ 'error_current_password_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>
                 <div className="form-group">
                     <label>New Password</label>
                     <input type="password" name="new_password" id="id_new_password" className="form-control"
-                        onChange={(e) => setNewPassword(e.target.value)} value={new_password}/>
+                        onChange={(e) => setNewPassword(e.target.value)} value={new_password} required/>
                     <div>{ errors.new_password?.map((err, i) => 
                         <span key={ 'error_new_password_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>
                 <div className="form-group">
                     <label>Confirm Password</label>
                     <input type="password" name="confirm_password" id="id_confirm_password" className="form-control"
-                        onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password}/>
+                        onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} required/>
                     <div>{ errors.confirm_password?.map((err, i) => 
                         <span key={ 'error_confirm_password_'+i } style={{ color: 'red' }}>{err} </span> ) }</div>
                 </div>

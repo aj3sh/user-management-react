@@ -1,7 +1,8 @@
-import useAuth from "hooks/useAuth"
-import useLogout from "hooks/useLogout"
 import { Link } from "react-router-dom"
-import { PATHS } from "routes";
+
+import useAuth from "../../hooks/useAuth"
+import useLogout from "../../hooks/useLogout"
+import { PATHS } from "../../routes";
 
 const Nav = () => {
     
