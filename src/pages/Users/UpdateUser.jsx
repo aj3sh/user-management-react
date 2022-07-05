@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import {axiosAuth} from "../../api/axios"
 import AdminRequired from '../../components/AdminRequired';
 import Nav from "../../components/Nav"
+import useAuth from '../../hooks/useAuth';
 import { PATHS } from '../../routes';
 
 const UpdateUser = () => {
@@ -13,6 +14,7 @@ const UpdateUser = () => {
     const userId = params?.id
     const navigate = useNavigate()
     const {state} = useLocation()
+    const {fetchUsers} = useAuth()
 
     // states
     const [first_name, setFirstName] = useState('')
@@ -90,6 +92,9 @@ const UpdateUser = () => {
             setSaving(false)
             toast.success("User updated successfully!", {autoClose: 3000, hideProgressBar: true})
             
+            // refetching user
+            fetchUsers(true)
+
             // redirecting to the users list page
             navigate(PATHS.users, { replace: true })
         }).catch((err) => {

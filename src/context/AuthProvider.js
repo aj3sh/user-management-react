@@ -1,11 +1,17 @@
 import { createContext, useState } from "react";
 
+import { axiosAuth } from "../api/axios";
+import useLogout from "../hooks/useLogout";
 import { User } from "../models";
 
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
+    let isFetching = false
+    const logout = useLogout()
+
     const [auth, setAuth] = useState({})
+    const [users, setUsers] = useState() // for storing users list in the context
 
     // checking if user is already logged in ( looking on localStorage)
     if(localStorage.getItem('refresh_token') && !auth?.user){
@@ -22,8 +28,36 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const fetchUsers = async (force=false) => {
+        
+        // handling already fetching
+        // handling user already fetched
+        // allowing force fetching
+        if(isFetching || (users?.length && !force))
+            return
+
+        console.log('Fetching users')
+        // already fetching flag
+        isFetching = true
+
+        try{
+            const res = await axiosAuth.get('/api/users/')
+            if(typeof res?.data != typeof undefined){
+                const users = User.mapArray(res.data)
+                setUsers(users)
+                isFetching = false
+            }
+        }catch(err){
+            if(err.code === 'REFRESH_TOKEN_LOAD_FAIL'){
+                // logging out
+                logout()
+            }
+            isFetching = false
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{auth, setAuth}}>
+        <AuthContext.Provider value={{auth, setAuth, users, fetchUsers}}>
             {children}
         </AuthContext.Provider>
     )
