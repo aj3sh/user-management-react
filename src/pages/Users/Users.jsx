@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -6,47 +6,15 @@ import {axiosAuth} from "../../api/axios"
 import AdminRequired from "../../components/AdminRequired"
 import Nav from "../../components/Nav"
 import useAuth from "../../hooks/useAuth";
-import useLogout from "../../hooks/useLogout";
-import { User } from "../../models";
 import { PATHS } from "../../routes";
 
 const UsersList = () => {
-    const {auth} = useAuth()
-
-    const [users, setUsers] = useState()
-    const [reload, setReload] = useState(1)
-    
-    const logout = useLogout()
+    const {auth, users, fetchUsers} = useAuth()
     
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController()
-
-        const getUsers = async () => {
-            try{
-                const res = await axiosAuth.get('/api/users/', {
-                    signal: controller.signal
-                })
-                if(typeof res?.data != typeof undefined){
-                    const users = User.mapArray(res.data)
-                    isMounted && setUsers(users)
-                }
-            }catch(err){
-                if(err.code === 'REFRESH_TOKEN_LOAD_FAIL'){
-                    // logging out
-                    logout()
-                }
-            }
-        }
-        getUsers()
-        return () => {
-            isMounted = false;
-            controller.abort();
-        }
-        
-    // eslint-disable-next-line
-    }, [reload])
-
+        fetchUsers()
+    } , [fetchUsers])
+    
     const handleDelete = (userId) => {
         if(!window.confirm('Are you sure you want to delete this user?'))
             return
@@ -54,10 +22,10 @@ const UsersList = () => {
         console.log(`Deleting ${userId}`);
         axiosAuth.delete(`/api/users/${userId}`, {
         }).then((res) => {
-            setReload(reload+1)
+            fetchUsers(true)
         }).catch((err) => {
-            console.error(err)
             // handling response error
+            console.error(err)
             toast.error("Unable to delete user. Please try again later.", {autoClose: 3000, hideProgressBar: true})
         })
     }
